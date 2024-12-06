@@ -1,0 +1,12 @@
+name = "ReasonML Interface"
+code_fence_block_name = "reasonml"
+grammar = "reasonml_interface"
+path_suffixes = ["rei"]
+block_comment = ["/* ", " */"]
+autoclose_before = ";,=)}"
+brackets = [
+    { start = "{", end = "}", close = true, newline = true },
+    { start = "[", end = "]", close = true, newline = true },
+    { start = "(", end = ")", close = true, newline = true },
+]
+tab_size = 2

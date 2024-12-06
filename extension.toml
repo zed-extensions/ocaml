@@ -23,3 +23,11 @@ path = "grammars/interface"
 [grammars.dune]
 repository = "https://github.com/WHForks/tree-sitter-dune"
 commit = "b3f7882e1b9a1d8811011bf6f0de1c74c9c93949"
+
+[grammars.reasonml]
+repository = "https://github.com/reasonml-editor/tree-sitter-reason"
+commit = "0226cfecaa2257d56d7c3f364f789cba042e403f"
+
+[grammars.reasonml_interface]
+repository = "https://github.com/reasonml-editor/tree-sitter-reason"
+commit = "0226cfecaa2257d56d7c3f364f789cba042e403f"
