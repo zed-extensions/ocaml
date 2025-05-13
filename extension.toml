@@ -15,11 +15,19 @@ repository = "https://github.com/tree-sitter/tree-sitter-ocaml"
 commit = "0b12614ded3ec7ed7ab7933a9ba4f695ba4c342e"
 path = "grammars/ocaml"
 
-[grammars.ocaml_interface]
-repository = "https://github.com/tree-sitter/tree-sitter-ocaml"
-commit = "0b12614ded3ec7ed7ab7933a9ba4f695ba4c342e"
-path = "grammars/interface"
+# [grammars.ocaml_interface]
+# repository = "https://github.com/tree-sitter/tree-sitter-ocaml"
+# commit = "0b12614ded3ec7ed7ab7933a9ba4f695ba4c342e"
+# path = "grammars/interface"
 
-[grammars.dune]
-repository = "https://github.com/WHForks/tree-sitter-dune"
-commit = "b3f7882e1b9a1d8811011bf6f0de1c74c9c93949"
+# [grammars.dune]
+# repository = "https://github.com/WHForks/tree-sitter-dune"
+# commit = "b3f7882e1b9a1d8811011bf6f0de1c74c9c93949"
+
+[grammars.menhir]
+repository = "https://github.com/Kerl13/tree-sitter-menhir"
+commit = "be8866a6bcc2b563ab0de895af69daeffa88fe70"
+
+[grammars.ocamllex]
+repository = "https://github.com/314eter/tree-sitter-ocamllex"
+commit = "c5cf996c23e38a1537069fbe2d4bb83a75fc7b2f"
