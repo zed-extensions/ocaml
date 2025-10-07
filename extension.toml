@@ -8,7 +8,7 @@ repository = "https://github.com/zed-extensions/ocaml"
 
 [language_servers.ocamllsp]
 name = "ocamllsp"
-languages = ["OCaml", "OCaml Interface", "Reason", "mlx"]
+languages = ["OCaml", "OCaml Interface", "Reason", "OCaml MLX"]
 
 [grammars.ocaml]
 repository = "https://github.com/tree-sitter/tree-sitter-ocaml"
