@@ -2,7 +2,8 @@ use std::ops::Range;
 use std::path::PathBuf;
 use zed::lsp::{Completion, CompletionKind, Symbol, SymbolKind};
 use zed::{CodeLabel, CodeLabelSpan};
-use zed_extension_api::{self as zed, Result};
+use zed_extension_api::settings::LspSettings;
+use zed_extension_api::{self as zed, serde_json, Result};
 
 const OPERATOR_CHAR: [char; 17] = [
     '~', '!', '?', '%', '<', ':', '.', '$', '&', '*', '+', '-', '/', '=', '>', '@', '^',
@@ -49,6 +50,24 @@ impl zed::Extension for OcamlExtension {
                 env: worktree.shell_env(),
             })
         }
+    }
+
+    fn language_server_initialization_options(
+        &mut self,
+        language_server_id: &zed::LanguageServerId,
+        worktree: &zed::Worktree,
+    ) -> Result<Option<serde_json::Value>> {
+        LspSettings::for_worktree(language_server_id.as_ref(), worktree)
+            .map(|lsp_settings| lsp_settings.initialization_options)
+    }
+
+    fn language_server_workspace_configuration(
+        &mut self,
+        language_server_id: &zed::LanguageServerId,
+        worktree: &zed::Worktree,
+    ) -> Result<Option<serde_json::Value>> {
+        LspSettings::for_worktree(language_server_id.as_ref(), worktree)
+            .map(|lsp_settings| lsp_settings.settings)
     }
 
     fn label_for_completion(
