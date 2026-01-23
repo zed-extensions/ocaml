@@ -1,7 +1,15 @@
 (_structure_item/value_definition
-    "let" @context
-    (let_binding
-      pattern: (_) @name)) @item
+  "let" @context
+  "rec"? @context
+  .
+  (let_binding
+    pattern: (_) @name) @item)
+
+(_structure_item/value_definition
+  "and" @context
+  .
+  (let_binding
+    pattern: (_) @name) @item)
 
 (_structure_item/exception_definition
   "exception" @context
@@ -10,8 +18,16 @@
 
 (_structure_item/module_definition
   "module" @context
+  "rec"? @context
+  .
   (module_binding
-    name: (module_name) @name)) @item
+    name: (module_name) @name) @item)
+
+(_structure_item/module_definition
+  "and" @context
+  .
+  (module_binding
+    name: (module_name) @name) @item)
 
 (module_type_definition
   "module" @context
@@ -20,7 +36,14 @@
 
 (type_definition
   "type" @context
-  (type_binding name: (_) @name)) @item
+  "nonrec"? @context
+  .
+  (type_binding name: (_) @name) @item)
+
+(type_definition
+  "and" @context
+  .
+  (type_binding name: (_) @name) @item)
 
 (value_specification
   "val" @context
