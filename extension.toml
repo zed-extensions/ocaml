@@ -8,7 +8,7 @@ repository = "https://github.com/zed-extensions/ocaml"
 
 [language_servers.ocamllsp]
 name = "ocamllsp"
-languages = ["OCaml", "OCaml Interface", "Reason"]
+languages = ["OCaml", "OCaml Interface", "Reason", "OCaml MLX"]
 
 [grammars.ocaml]
 repository = "https://github.com/tree-sitter/tree-sitter-ocaml"
@@ -35,3 +35,8 @@ commit = "be8866a6bcc2b563ab0de895af69daeffa88fe70"
 [grammars.ocamllex]
 repository = "https://github.com/314eter/tree-sitter-ocamllex"
 commit = "c5cf996c23e38a1537069fbe2d4bb83a75fc7b2f"
+
+[grammars.ocaml_mlx]
+repository = "https://github.com/ocaml-mlx/tree-sitter-mlx"
+commit = "fbe904bbf55be15d34b57ba9c45750fc5187960f"
+path = "grammars/mlx"
