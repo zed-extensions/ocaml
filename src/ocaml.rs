@@ -21,12 +21,15 @@ impl zed::Extension for OcamlExtension {
         _language_server_id: &zed::LanguageServerId,
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
-        let uses_dune_package_management = worktree
-            .read_text_file("dune.lock/lock.dune")
-            .is_ok();
+        if let Some(dune_path) = worktree.which("dune") {
+            let uses_dune_package_management = zed::process::Command::new(&dune_path)
+                .args(["pkg", "enabled"])
+                .envs(worktree.shell_env())
+                .output()
+                .map(|output| output.status == Some(0))
+                .unwrap_or(false);
 
-        if uses_dune_package_management {
-            if let Some(dune_path) = worktree.which("dune") {
+            if uses_dune_package_management {
                 return Ok(zed::Command {
                     command: dune_path,
                     args: vec![
