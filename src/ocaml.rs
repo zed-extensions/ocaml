@@ -26,8 +26,8 @@ impl zed::Extension for OcamlExtension {
                 .args(["pkg", "enabled"])
                 .envs(worktree.shell_env())
                 .output()
-                .map(|output| output.status == Some(0))
-                .unwrap_or(false);
+                .ok()
+                .is_some_and(|output| output.status == Some(0));
 
             if uses_dune_package_management {
                 return Ok(zed::Command {
@@ -62,8 +62,10 @@ impl zed::Extension for OcamlExtension {
             });
         }
 
-        let ocamllsp_path = worktree.which("ocamllsp")
-            .ok_or_else(|| "Neither dune, opam, nor ocamllsp is available. Please install one of these.".to_string())?;
+        let ocamllsp_path = worktree.which("ocamllsp").ok_or_else(|| {
+            "Neither dune, opam, nor ocamllsp is available. Please install one of these."
+                .to_string()
+        })?;
 
         Ok(zed::Command {
             command: ocamllsp_path,
