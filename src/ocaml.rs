@@ -26,8 +26,7 @@ impl zed::Extension for OcamlExtension {
                 .args(["pkg", "enabled"])
                 .envs(worktree.shell_env())
                 .output()
-                .ok()
-                .is_some_and(|output| output.status == Some(0));
+                .is_ok_and(|output| output.status == Some(0));
 
             if uses_dune_package_management {
                 return Ok(zed::Command {
