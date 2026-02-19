@@ -10,6 +10,11 @@ repository = "https://github.com/zed-extensions/ocaml"
 name = "ocamllsp"
 languages = ["OCaml", "OCaml Interface", "Reason"]
 
+[[capabilities]]
+kind = "process:exec"
+command = "dune"
+args = ["pkg", "enabled"]
+
 [grammars.ocaml]
 repository = "https://github.com/tree-sitter/tree-sitter-ocaml"
 commit = "0b12614ded3ec7ed7ab7933a9ba4f695ba4c342e"
