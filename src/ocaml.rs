@@ -21,6 +21,26 @@ impl zed::Extension for OcamlExtension {
         _language_server_id: &zed::LanguageServerId,
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
+        if let Some(dune_path) = worktree.which("dune") {
+            let uses_dune_package_management = zed::process::Command::new(&dune_path)
+                .args(["pkg", "enabled"])
+                .envs(worktree.shell_env())
+                .output()
+                .is_ok_and(|output| output.status == Some(0));
+
+            if uses_dune_package_management {
+                return Ok(zed::Command {
+                    command: dune_path,
+                    args: vec![
+                        "tools".to_string(),
+                        "exec".to_string(),
+                        "ocamllsp".to_string(),
+                    ],
+                    env: worktree.shell_env(),
+                });
+            }
+        }
+
         if let Some(opam_path) = worktree.which("opam") {
             let worktree_root = worktree.root_path();
             let mut args = vec!["exec".to_string()];
@@ -34,22 +54,23 @@ impl zed::Extension for OcamlExtension {
             args.push("--".to_string());
             args.push("ocamllsp".to_string());
 
-            Ok(zed::Command {
+            return Ok(zed::Command {
                 command: opam_path,
                 args,
                 env: worktree.shell_env(),
-            })
-        } else {
-            // Fallback to direct ocamllsp if available
-            let ocamllsp_path = worktree.which("ocamllsp")
-                .ok_or_else(|| "Neither opam nor ocamllsp is available. Please install either opam or ocamllsp.".to_string())?;
-
-            Ok(zed::Command {
-                command: ocamllsp_path,
-                args: vec![],
-                env: worktree.shell_env(),
-            })
+            });
         }
+
+        let ocamllsp_path = worktree.which("ocamllsp").ok_or_else(|| {
+            "Neither dune, opam, nor ocamllsp is available. Please install one of these."
+                .to_string()
+        })?;
+
+        Ok(zed::Command {
+            command: ocamllsp_path,
+            args: vec![],
+            env: worktree.shell_env(),
+        })
     }
 
     fn language_server_initialization_options(
