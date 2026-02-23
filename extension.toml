@@ -12,7 +12,7 @@ languages = ["OCaml", "OCaml Interface", "Reason"]
 
 [[capabilities]]
 kind = "process:exec"
-command = "dune"
+command = "**"
 args = ["pkg", "enabled"]
 
 [grammars.ocaml]
