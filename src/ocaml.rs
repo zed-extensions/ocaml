@@ -18,9 +18,15 @@ impl zed::Extension for OcamlExtension {
 
     fn language_server_command(
         &mut self,
-        _language_server_id: &zed::LanguageServerId,
+        language_server_id: &zed::LanguageServerId,
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
+        let user_args = LspSettings::for_worktree(language_server_id.as_ref(), worktree)
+            .ok()
+            .and_then(|s| s.binary)
+            .and_then(|b| b.arguments)
+            .unwrap_or_default();
+
         if let Some(dune_path) = worktree.which("dune") {
             let uses_dune_package_management = zed::process::Command::new(&dune_path)
                 .args(["pkg", "enabled"])
@@ -29,13 +35,16 @@ impl zed::Extension for OcamlExtension {
                 .is_ok_and(|output| output.status == Some(0));
 
             if uses_dune_package_management {
+                let mut args = vec![
+                    "tools".to_string(),
+                    "exec".to_string(),
+                    "ocamllsp".to_string(),
+                ];
+                args.extend(user_args);
+
                 return Ok(zed::Command {
                     command: dune_path,
-                    args: vec![
-                        "tools".to_string(),
-                        "exec".to_string(),
-                        "ocamllsp".to_string(),
-                    ],
+                    args,
                     env: worktree.shell_env(),
                 });
             }
@@ -53,6 +62,7 @@ impl zed::Extension for OcamlExtension {
             }
             args.push("--".to_string());
             args.push("ocamllsp".to_string());
+            args.extend(user_args);
 
             return Ok(zed::Command {
                 command: opam_path,
@@ -68,7 +78,7 @@ impl zed::Extension for OcamlExtension {
 
         Ok(zed::Command {
             command: ocamllsp_path,
-            args: vec![],
+            args: user_args,
             env: worktree.shell_env(),
         })
     }
