@@ -45,6 +45,10 @@
   "do" @open
   "done" @close)
 
+(try_expression
+  "try" @open
+  "with" @close)
+
 (if_expression
   (then_clause "then" @open)
   (else_clause "else" @close))
