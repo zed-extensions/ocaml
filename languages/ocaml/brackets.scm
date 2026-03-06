@@ -8,6 +8,14 @@
   "begin" @open
   "end" @close)
 
+(structure
+  "struct" @open
+  "end" @close)
+
+(signature
+  "sig" @open
+  "end" @close)
+
 (let_expression
   (value_definition "let" @open)
   "in" @close)
