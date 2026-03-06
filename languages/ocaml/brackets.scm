@@ -20,6 +20,10 @@
   "object" @open
   "end" @close)
 
+(do_clause
+  "do" @open
+  "done" @close)
+
 (if_expression
   (then_clause "then" @open)
   (else_clause "else" @close))

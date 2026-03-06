@@ -20,6 +20,10 @@
   "object" @open
   "end" @close)
 
+(do_clause
+  "do" @open
+  "done" @close)
+
 (jsx_element_opening "<" @open ">" @close)
 (jsx_element_closing "</" @open ">" @close)
 (jsx_element_self_closing "<" @open "/>" @close)
