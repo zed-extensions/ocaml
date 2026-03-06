@@ -25,6 +25,10 @@
   "sig" @open
   "end" @close)
 
+(object_expression
+  "object" @open
+  "end" @close)
+
 (if_expression
   (then_clause "then" @open)
   (else_clause "else" @close))
