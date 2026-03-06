@@ -16,6 +16,10 @@
   "sig" @open
   "end" @close)
 
+(object_expression
+  "object" @open
+  "end" @close)
+
 (jsx_element_opening "<" @open ">" @close)
 (jsx_element_closing "</" @open ">" @close)
 (jsx_element_self_closing "<" @open "/>" @close)
