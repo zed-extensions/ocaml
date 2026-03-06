@@ -16,6 +16,10 @@
   "sig" @open
   "end" @close)
 
+(if_expression
+  (then_clause "then" @open)
+  (else_clause "else" @close))
+
 (let_expression
   (value_definition "let" @open)
   "in" @close)

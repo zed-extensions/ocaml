@@ -20,6 +20,10 @@
 (jsx_element_closing "</" @open ">" @close)
 (jsx_element_self_closing "<" @open "/>" @close)
 
+(if_expression
+  (then_clause "then" @open)
+  (else_clause "else" @close))
+
 (let_expression
   (value_definition "let" @open)
   "in" @close)
