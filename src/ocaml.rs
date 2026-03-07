@@ -21,6 +21,7 @@ impl zed::Extension for OcamlExtension {
         language_server_id: &zed::LanguageServerId,
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
+        let worktree_root = worktree.root_path();
         let user_args = LspSettings::for_worktree(language_server_id.as_ref(), worktree)
             .ok()
             .and_then(|s| s.binary)
@@ -29,7 +30,7 @@ impl zed::Extension for OcamlExtension {
 
         if let Some(dune_path) = worktree.which("dune") {
             let uses_dune_package_management = zed::process::Command::new(&dune_path)
-                .args(["pkg", "enabled"])
+                .args(["pkg", "enabled", "--root", &worktree_root])
                 .envs(worktree.shell_env())
                 .output()
                 .is_ok_and(|output| output.status == Some(0));
@@ -51,7 +52,6 @@ impl zed::Extension for OcamlExtension {
         }
 
         if let Some(opam_path) = worktree.which("opam") {
-            let worktree_root = worktree.root_path();
             let mut args = vec!["exec".to_string()];
 
             let opam_switch_path = PathBuf::from(&worktree_root).join("_opam");
