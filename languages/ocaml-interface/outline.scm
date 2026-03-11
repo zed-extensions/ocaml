@@ -4,32 +4,36 @@
   name: (_) @name) @item
 
 (module_definition
-    "module" @context
-    "rec"? @context
-    .
-    (module_binding name: (_) @name) @item)
+  "module" @context
+  "rec"? @context
+  .
+  (module_binding
+    name: (_) @name) @item)
 
 (module_definition
-    "and" @context
-    .
-    (module_binding name: (_) @name) @item)
+  "and" @context
+  .
+  (module_binding
+    name: (_) @name) @item)
 
 (type_definition
-    "type" @context
-    "nonrec"? @context
-    .
-    (type_binding name: (_) @name) @item)
+  "type" @context
+  "nonrec"? @context
+  .
+  (type_binding
+    name: (_) @name) @item)
 
 (type_definition
-    "and" @context
-    .
-    (type_binding name: (_) @name) @item)
+  "and" @context
+  .
+  (type_binding
+    name: (_) @name) @item)
 
 (class_definition
-    "class" @context
-    (class_binding
-      "virtual"? @context
-      name: (_) @name)) @item
+  "class" @context
+  (class_binding
+    "virtual"? @context
+    name: (_) @name)) @item
 
 (class_type_definition
   "class" @context
@@ -46,17 +50,17 @@
 (method_specification
   "method" @context
   "virtual"? @context
-   (method_name) @name) @item
+  (method_name) @name) @item
 
 (value_specification
-    "val" @context
-    (value_name) @name) @item
+  "val" @context
+  (value_name) @name) @item
 
 (external
   "external" @context
   (value_name) @name) @item
 
 (exception_definition
-    "exception" @context
-    (constructor_declaration
-      (constructor_name) @name)) @item
+  "exception" @context
+  (constructor_declaration
+    (constructor_name) @name)) @item

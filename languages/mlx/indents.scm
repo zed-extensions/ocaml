@@ -1,30 +1,40 @@
 [
   (let_binding)
   (type_binding)
-
   (method_definition)
-
   (external)
   (value_specification)
   (method_specification)
-
   (match_case)
-
   (function_expression)
-
   (field_declaration)
   (field_expression)
-
   (application_expression)
 ] @indent
 
-(_ "[" "]" @end) @indent
-(_ "[|" "|]" @end) @indent
-(_ "<" ">" @end) @indent
-(_ "{" "}" @end) @indent
-(_ "(" ")" @end) @indent
+(_
+  "["
+  "]" @end) @indent
 
-(_ "object" @start "end" @end) @indent
+(_
+  "[|"
+  "|]" @end) @indent
+
+(_
+  "<"
+  ">" @end) @indent
+
+(_
+  "{"
+  "}" @end) @indent
+
+(_
+  "("
+  ")" @end) @indent
+
+(_
+  "object" @start
+  "end" @end) @indent
 
 (structure
   "struct" @start
@@ -46,9 +56,12 @@
 
 ; JSX
 ;-----
-
 (jsx_element_opening) @indent
+
 (jsx_element_self_closing) @indent
 
-(jsx_element_closing ">" @end)
-(jsx_element_self_closing "/>" @end)
+(jsx_element_closing
+  ">" @end)
+
+(jsx_element_self_closing
+  "/>" @end)

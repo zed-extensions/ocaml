@@ -1,11 +1,28 @@
 (comment) @comment
-(type) @type
-; (identifier) @identifier
 
+(type) @type
+
+; (identifier) @identifier
 (uid) @constant
+
 (lid) @variable
-["=" "|"] @operator
-["<" ">" "[" "]" "(" ")" "{" "}"] @punctuation.bracket
+
+[
+  "="
+  "|"
+] @operator
+
+[
+  "<"
+  ">"
+  "["
+  "]"
+  "("
+  ")"
+  "{"
+  "}"
+] @punctuation.bracket
+
 [
   "%prec"
   "%left"
@@ -18,4 +35,5 @@
   "%type"
   "%start"
 ] @keyword
-("%%") @punctuation.delimiter
+
+"%%" @punctuation.delimiter

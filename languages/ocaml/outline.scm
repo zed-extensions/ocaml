@@ -38,12 +38,14 @@
   "type" @context
   "nonrec"? @context
   .
-  (type_binding name: (_) @name) @item)
+  (type_binding
+    name: (_) @name) @item)
 
 (type_definition
   "and" @context
   .
-  (type_binding name: (_) @name) @item)
+  (type_binding
+    name: (_) @name) @item)
 
 (value_specification
   "val" @context
@@ -70,7 +72,7 @@
 (method_specification
   "method" @context
   "virtual"? @context
-   (method_name) @name) @item
+  (method_name) @name) @item
 
 (method_definition
   "method" @context

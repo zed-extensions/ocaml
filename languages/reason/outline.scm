@@ -19,7 +19,7 @@
 ; module type T = ...
 (module_type_definition
   "module" @context
-  "type"  @context
+  "type" @context
   name: (_) @name) @item
 
 ; type t = ...
