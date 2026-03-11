@@ -1,7 +1,7 @@
 name = "Reason"
 grammar = "reason"
 path_suffixes = ["re"]
-line_comments = ["//"]
+line_comments = ["// "]
 block_comment = ["/* ", " */"]
 autoclose_before = ";,=)}]"
 brackets = [
