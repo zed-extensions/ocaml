@@ -1,34 +1,39 @@
 ; Modules
 ;--------
-
-[(module_name) (module_type_name)] @title
+[
+  (module_name)
+  (module_type_name)
+] @title
 
 ; Types
 ;------
-
 ((type_constructor) @type.builtin
   (#any-of? @type.builtin
     "int" "char" "bytes" "string" "float" "bool" "unit" "exn" "array" "list" "option" "int32"
     "int64" "nativeint" "format6" "lazy_t"))
 
-[(class_name)
- (class_type_name)
- (type_constructor)] @type
+[
+  (class_name)
+  (class_type_name)
+  (type_constructor)
+] @type
 
-[(constructor_name)
- (tag)] @constructor
+[
+  (constructor_name)
+  (tag)
+] @constructor
 
 ; Variables
 ;----------
-
-[(value_name)
- (type_variable)] @variable
+[
+  (value_name)
+  (type_variable)
+] @variable
 
 (value_pattern) @variable.parameter
 
 ; Functions
 ;----------
-
 (value_specification
   (value_name) @function)
 
@@ -40,17 +45,15 @@
 ; Application
 ;------------
 (infix_expression
-  left:
-    (value_path
-      (value_name) @function.call)
+  left: (value_path
+    (value_name) @function.call)
   operator: (concat_operator) @_operator
   (#eq? @_operator "@@"))
 
 (infix_expression
   operator: (rel_operator) @_operator
-  right:
-    (value_path
-      (value_name) @function.call)
+  right: (value_path
+    (value_name) @function.call)
   (#eq? @_operator "|>"))
 
 ((value_name) @function.builtin
@@ -58,26 +61,27 @@
 
 ; Fields
 ;-------
-
-[(field_name)
- (instance_variable_name)] @variable.member
+[
+  (field_name)
+  (instance_variable_name)
+] @variable.member
 
 ; Labels
 ; ------
-
 (label_name) @label
 
 ; Constants
 ;----------
 ; Don't let normal parens take priority over this
-
 ((unit) @constant.builtin
   (#set! "priority" 105))
 
 (boolean) @boolean
 
-[(number)
- (signed_number)] @number
+[
+  (number)
+  (signed_number)
+] @number
 
 (character) @character
 
@@ -89,12 +93,13 @@
 
 (escape_sequence) @string.escape
 
-[(conversion_specification)
- (pretty_printing_indication)] @string.special
+[
+  (conversion_specification)
+  (pretty_printing_indication)
+] @string.special
 
 ; Keywords
 ;---------
-
 [
   "and"
   "as"
@@ -119,7 +124,8 @@
   "type"
   "val"
   "when"
-  "with" ] @keyword
+  "with"
+] @keyword
 
 [
   "lazy"
@@ -127,20 +133,24 @@
   "nonrec"
   "rec"
   "private"
-  "virtual" ] @type.qualifier
+  "virtual"
+] @type.qualifier
 
 [
   "if"
   "then"
-  "else"] @keyword.conditional
+  "else"
+] @keyword.conditional
 
 [
   "exception"
-  "try" ] @keyword.exception
+  "try"
+] @keyword.exception
 
 [
   "include"
-  "open" ] @keyword.import
+  "open"
+] @keyword.import
 
 [
   "for"
@@ -148,28 +158,46 @@
   "downto"
   "while"
   "do"
-  "done" ] @keyword.repeat
+  "done"
+] @keyword.repeat
 
 ; Punctuation
 ;------------
-
 (item_attribute
-  ["[@@" "]"] @punctuation.special)
+  [
+    "[@@"
+    "]"
+  ] @punctuation.special)
 
 (floating_attribute
-  ["[@@@" "]"] @punctuation.special)
+  [
+    "[@@@"
+    "]"
+  ] @punctuation.special)
 
 (extension
-  ["[%" "]"] @punctuation.special)
+  [
+    "[%"
+    "]"
+  ] @punctuation.special)
 
 (item_extension
-  ["[%%" "]"] @punctuation.special)
+  [
+    "[%%"
+    "]"
+  ] @punctuation.special)
 
 (quoted_extension
-  ["{%" "}"] @punctuation.special)
+  [
+    "{%"
+    "}"
+  ] @punctuation.special)
 
 (quoted_item_extension
-  ["{%%" "}"] @punctuation.special)
+  [
+    "{%%"
+    "}"
+  ] @punctuation.special)
 
 "%" @punctuation.special
 
@@ -183,10 +211,14 @@
   "[|"
   "|]"
   "[<"
-  "[>" ] @punctuation.bracket
+  "[>"
+] @punctuation.bracket
 
 (object_type
-  ["<" ">"] @punctuation.bracket)
+  [
+    "<"
+    ">"
+  ] @punctuation.bracket)
 
 [
   ","
@@ -207,11 +239,11 @@
   ":>"
   ; "+="
   ":="
-  ".." ] @punctuation.delimiter
+  ".."
+] @punctuation.delimiter
 
 ; Operators
 ;----------
-
 [
   (prefix_operator)
   (sign_operator)
@@ -227,49 +259,57 @@
   (indexing_operator)
   (let_operator)
   (and_operator)
-  (match_operator)] @operator
+  (match_operator)
+] @operator
 
 (value_definition
-  [(let_operator)
-   (let_and_operator)] @keyword)
+  [
+    (let_operator)
+    (let_and_operator)
+  ] @keyword)
 
 [
   "*"
   "#"
   "::"
-  "<-" ] @operator
+  "<-"
+] @operator
 
 ; Attributes
 ;-----------
-
 (attribute_id) @attribute
 
 ; Comments
 ;---------
-
 [
   (comment)
   (line_number_directive)
-  (directive)] @comment @spell
+  (directive)
+] @comment @spell
 
 (shebang) @keyword.directive
 
-
 ; JSX
 ;---------
+(jsx_element
+  open_tag: (jsx_opening_element
+    [
+      "<"
+      ">"
+    ] @tag.delimiter))
 
 (jsx_element
-  open_tag:
-    (jsx_opening_element
-      ["<" ">"] @tag.delimiter))
-
-(jsx_element
-  close_tag:
-    (jsx_closing_element
-      ["</" ">"] @tag.delimiter))
+  close_tag: (jsx_closing_element
+    [
+      "</"
+      ">"
+    ] @tag.delimiter))
 
 (jsx_self_closing_element
-  ["<" "/>"] @tag.delimiter)
+  [
+    "<"
+    "/>"
+  ] @tag.delimiter)
 
 (jsx_attribute
   (property_identifier) @tag.attribute)

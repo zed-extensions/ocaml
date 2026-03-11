@@ -1,7 +1,7 @@
 (_structure_item/value_definition
-    "let" @context
-    (let_binding
-      pattern: (_) @name)) @item
+  "let" @context
+  (let_binding
+    pattern: (_) @name)) @item
 
 (_structure_item/exception_definition
   "exception" @context
@@ -20,7 +20,8 @@
 
 (type_definition
   "type" @context
-  (type_binding name: (_) @name)) @item
+  (type_binding
+    name: (_) @name)) @item
 
 (value_specification
   "val" @context
@@ -47,7 +48,7 @@
 (method_specification
   "method" @context
   "virtual"? @context
-   (method_name) @name) @item
+  (method_name) @name) @item
 
 (method_definition
   "method" @context
