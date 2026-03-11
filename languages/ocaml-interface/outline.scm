@@ -5,13 +5,29 @@
 
 (module_definition
   "module" @context
+  "rec"? @context
+  .
   (module_binding
-    name: (_) @name)) @item
+    name: (_) @name) @item)
+
+(module_definition
+  "and" @context
+  .
+  (module_binding
+    name: (_) @name) @item)
 
 (type_definition
   "type" @context
+  "nonrec"? @context
+  .
   (type_binding
-    name: (_) @name)) @item
+    name: (_) @name) @item)
+
+(type_definition
+  "and" @context
+  .
+  (type_binding
+    name: (_) @name) @item)
 
 (class_definition
   "class" @context

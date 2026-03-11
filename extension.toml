@@ -1,14 +1,19 @@
 id = "ocaml"
 name = "OCaml"
 description = "OCaml support."
-version = "0.1.5"
+version = "0.3.0"
 schema_version = 1
 authors = ["Rashid Almheiri <69181766+huwaireb@users.noreply.github.com>"]
 repository = "https://github.com/zed-extensions/ocaml"
 
 [language_servers.ocamllsp]
 name = "ocamllsp"
-languages = ["OCaml", "OCaml Interface", "Reason"]
+languages = ["OCaml", "OCaml Interface", "OCaml MLX", "Reason"]
+
+[[capabilities]]
+kind = "process:exec"
+command = "**"
+args = ["pkg", "enabled"]
 
 [grammars.ocaml]
 repository = "https://github.com/tree-sitter/tree-sitter-ocaml"
@@ -31,6 +36,11 @@ commit = "b3f7882e1b9a1d8811011bf6f0de1c74c9c93949"
 [grammars.menhir]
 repository = "https://github.com/Kerl13/tree-sitter-menhir"
 commit = "be8866a6bcc2b563ab0de895af69daeffa88fe70"
+
+[grammars.ocaml_mlx]
+repository = "https://github.com/ocaml-mlx/tree-sitter-mlx"
+commit = "fbe904bbf55be15d34b57ba9c45750fc5187960f"
+path = "grammars/mlx"
 
 [grammars.ocamllex]
 repository = "https://github.com/314eter/tree-sitter-ocamllex"

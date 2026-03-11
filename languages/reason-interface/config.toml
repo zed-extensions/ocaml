@@ -2,7 +2,7 @@ name = "Reason Interface"
 code_fence_block_name = "reason"
 grammar = "reason"
 path_suffixes = ["rei"]
-line_comments = ["//"]
+line_comments = ["// "]
 block_comment = ["/* ", " */"]
 autoclose_before = ";,=)}"
 brackets = [

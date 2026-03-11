@@ -2,7 +2,8 @@ use std::ops::Range;
 use std::path::PathBuf;
 use zed::lsp::{Completion, CompletionKind, Symbol, SymbolKind};
 use zed::{CodeLabel, CodeLabelSpan};
-use zed_extension_api::{self as zed, Result};
+use zed_extension_api::settings::LspSettings;
+use zed_extension_api::{self as zed, serde_json, Result};
 
 const OPERATOR_CHAR: [char; 17] = [
     '~', '!', '?', '%', '<', ':', '.', '$', '&', '*', '+', '-', '/', '=', '>', '@', '^',
@@ -17,11 +18,40 @@ impl zed::Extension for OcamlExtension {
 
     fn language_server_command(
         &mut self,
-        _language_server_id: &zed::LanguageServerId,
+        language_server_id: &zed::LanguageServerId,
         worktree: &zed::Worktree,
     ) -> Result<zed::Command> {
+        let worktree_root = worktree.root_path();
+        let user_args = LspSettings::for_worktree(language_server_id.as_ref(), worktree)
+            .ok()
+            .and_then(|s| s.binary)
+            .and_then(|b| b.arguments)
+            .unwrap_or_default();
+
+        if let Some(dune_path) = worktree.which("dune") {
+            let uses_dune_package_management = zed::process::Command::new(&dune_path)
+                .args(["pkg", "enabled", "--root", &worktree_root])
+                .envs(worktree.shell_env())
+                .output()
+                .is_ok_and(|output| output.status == Some(0));
+
+            if uses_dune_package_management {
+                let mut args = vec![
+                    "tools".to_string(),
+                    "exec".to_string(),
+                    "ocamllsp".to_string(),
+                ];
+                args.extend(user_args);
+
+                return Ok(zed::Command {
+                    command: dune_path,
+                    args,
+                    env: worktree.shell_env(),
+                });
+            }
+        }
+
         if let Some(opam_path) = worktree.which("opam") {
-            let worktree_root = worktree.root_path();
             let mut args = vec!["exec".to_string()];
 
             let opam_switch_path = PathBuf::from(&worktree_root).join("_opam");
@@ -32,23 +62,43 @@ impl zed::Extension for OcamlExtension {
             }
             args.push("--".to_string());
             args.push("ocamllsp".to_string());
+            args.extend(user_args);
 
-            Ok(zed::Command {
+            return Ok(zed::Command {
                 command: opam_path,
                 args,
                 env: worktree.shell_env(),
-            })
-        } else {
-            // Fallback to direct ocamllsp if available
-            let ocamllsp_path = worktree.which("ocamllsp")
-                .ok_or_else(|| "Neither opam nor ocamllsp is available. Please install either opam or ocamllsp.".to_string())?;
-
-            Ok(zed::Command {
-                command: ocamllsp_path,
-                args: vec![],
-                env: worktree.shell_env(),
-            })
+            });
         }
+
+        let ocamllsp_path = worktree.which("ocamllsp").ok_or_else(|| {
+            "Neither dune, opam, nor ocamllsp is available. Please install one of these."
+                .to_string()
+        })?;
+
+        Ok(zed::Command {
+            command: ocamllsp_path,
+            args: user_args,
+            env: worktree.shell_env(),
+        })
+    }
+
+    fn language_server_initialization_options(
+        &mut self,
+        language_server_id: &zed::LanguageServerId,
+        worktree: &zed::Worktree,
+    ) -> Result<Option<serde_json::Value>> {
+        LspSettings::for_worktree(language_server_id.as_ref(), worktree)
+            .map(|lsp_settings| lsp_settings.initialization_options)
+    }
+
+    fn language_server_workspace_configuration(
+        &mut self,
+        language_server_id: &zed::LanguageServerId,
+        worktree: &zed::Worktree,
+    ) -> Result<Option<serde_json::Value>> {
+        LspSettings::for_worktree(language_server_id.as_ref(), worktree)
+            .map(|lsp_settings| lsp_settings.settings)
     }
 
     fn label_for_completion(
