@@ -1,0 +1,5 @@
+name = "Odoc"
+grammar = "odoc_mld"
+path_suffixes = ["mld"]
+tab_size = 2
+hard_tabs = false
