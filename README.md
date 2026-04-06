@@ -2,6 +2,16 @@
 
 An [OCaml](https://ocaml.org/) extension for [Zed](https://zed.dev).
 
+This extension includes support for:
+
+- OCaml (`.ml`) and OCaml Interface (`.mli`)
+- OCaml MLX (`.mlx`)
+- Reason (`.re` and `.rei`)
+- Dune (`dune`, `dune-project` and `dune-workspace`)
+- Menhir (`.mly`)
+- OCamllex (`.mll`)
+- Odoc (`.mld`)
+
 # Language Server
 
 The extension automatically detects how to start `ocamllsp` based on your project setup, using the following priority order:
