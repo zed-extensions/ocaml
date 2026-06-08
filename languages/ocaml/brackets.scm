@@ -38,11 +38,14 @@
   "with" @close)
 
 (if_expression
-  (then_clause "then" @open)
-  (else_clause "else" @close))
+  (then_clause
+    "then" @open)
+  (else_clause
+    "else" @close))
 
 (let_expression
-  (value_definition "let" @open)
+  (value_definition
+    "let" @open)
   "in" @close)
 
 (let_module_expression
