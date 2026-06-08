@@ -45,3 +45,7 @@ path = "grammars/mlx"
 [grammars.ocamllex]
 repository = "https://github.com/314eter/tree-sitter-ocamllex"
 commit = "c5cf996c23e38a1537069fbe2d4bb83a75fc7b2f"
+
+[grammars.odoc_mld]
+repository = "https://github.com/manenko/tree-sitter-odoc-mld"
+commit = "2eafb2a4732b2029d03534ccb0df9134b2577161"
