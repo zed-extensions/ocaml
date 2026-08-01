@@ -12,8 +12,8 @@ languages = ["OCaml", "OCaml Interface", "OCaml MLX", "Reason"]
 
 [[capabilities]]
 kind = "process:exec"
-command = "**"
-args = ["pkg", "enabled"]
+command = "*"
+args = ["pkg", "enabled", "--root", "*"]
 
 [grammars.ocaml]
 repository = "https://github.com/tree-sitter/tree-sitter-ocaml"
